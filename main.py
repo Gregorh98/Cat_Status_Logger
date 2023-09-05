@@ -1,3 +1,4 @@
+import json
 import os
 
 import dotenv
@@ -13,16 +14,17 @@ app = Flask(__name__)
 def log_cat_status():
     data = request.get_json()
 
-    print(data)
-
     status = True if data["status"] == 1 else False
     timestamp = data["timestamp"]
-    condition = data["weather"]["condition"]
-    wind_bearing = data["weather"]["wind_bearing"]
-    temperature = data["weather"]["temperature"]
-    wind_speed = data["weather"]["wind_speed"]
-    precipitation = data["weather"]["precipitation"]
-    humidity = data["weather"]["humidity"]
+
+    weather = json.loads(data["weather"])
+
+    condition = weather["condition"]
+    wind_bearing = weather["wind_bearing"]
+    temperature = weather["temperature"]
+    wind_speed = weather["wind_speed"]
+    precipitation = weather["precipitation"]
+    humidity = weather["humidity"]
 
     with psycopg2.connect(
             "dbname='postgres' user='postgres' host='192.168.1.72' password=%s" % (os.getenv("DB_PASS"))) as conn:
