@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/log-cat-status', methods=["POST"])
 def log_cat_status():
-    data = dict(request.get_json())
+    data = str(request.get_json())
     data = json.loads(data)
 
     status = True if data["status"] == 1 else False
