@@ -1,4 +1,3 @@
-import ast
 import json
 import os
 
@@ -13,8 +12,8 @@ app = Flask(__name__)
 
 @app.route('/log-cat-status', methods=["POST"])
 def log_cat_status():
-    data = request.get_json()
-    data = ast.literal_eval(data)
+    data = dict(request.get_json())
+    data = json.loads(data)
 
     status = True if data["status"] == 1 else False
     timestamp = data["timestamp"]
