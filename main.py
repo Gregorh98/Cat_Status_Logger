@@ -1,4 +1,3 @@
-import datetime
 import os
 
 import dotenv
@@ -17,7 +16,7 @@ def log_cat_status():
     print(data)
 
     status = True if data["status"] == 1 else False
-    timestamp = datetime.datetime.fromisoformat(data["timestamp"])
+    timestamp = data["timestamp"]
     condition = data["weather"]["condition"]
     wind_bearing = data["weather"]["wind_bearing"]
     temperature = data["weather"]["temperature"]
@@ -32,11 +31,13 @@ def log_cat_status():
                   "(timestamp, outside, condition, wind_bearing, temperature, wind_speed, precipitation, humidity)" \
                   "values (%s, %s, %s, %s, %s, %s, %s, %s)"
 
-            data = (timestamp, status, condition, wind_bearing, temperature, wind_speed, precipitation, humidity)
+            query_data = (timestamp, status, condition, wind_bearing, temperature, wind_speed, precipitation, humidity)
 
-            cursor.execute(sql, data)
+            cursor.execute(sql, query_data)
             conn.commit()
+
+    return [x for x in query_data]
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)
