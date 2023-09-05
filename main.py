@@ -14,6 +14,8 @@ app = Flask(__name__)
 def log_cat_status():
     data = request.get_json()
 
+    print(data)
+
     status = True if data["status"] == 1 else False
     timestamp = datetime.datetime.fromisoformat(data["timestamp"])
     condition = data["weather"]["condition"]
