@@ -13,6 +13,7 @@ app = Flask(__name__)
 @app.route('/log-cat-status', methods=["POST"])
 def log_cat_status():
     data = request.get_json()
+    data = data.replace("\'", "\"")
 
     print(data)
 
