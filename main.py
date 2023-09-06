@@ -51,7 +51,7 @@ def log_cat_status_manual_correction():
     print(data)
     data = json.loads(data)
 
-    status = True if data["status"] == 1 else False
+    status = True if data["status"] == "1" else False
 
     with psycopg2.connect(
             "dbname='postgres' user='postgres' host='192.168.1.72' password=%s" % (os.getenv("DB_PASS"))) as conn:
