@@ -49,6 +49,7 @@ def log_cat_status():
 def log_cat_status_manual_correction():
     data = str(request.get_json()).replace("'", "\"").replace("\"{", "{").replace("}\"", "}")
     data = json.loads(data)
+    print(data)
 
     status = True if data["status"] == 1 else False
 
