@@ -48,8 +48,8 @@ def log_cat_status():
 @app.route('/log-cat-status/manual-correction', methods=["POST"])
 def log_cat_status_manual_correction():
     data = str(request.get_json()).replace("'", "\"").replace("\"{", "{").replace("}\"", "}")
-    data = json.loads(data)
     print(data)
+    data = json.loads(data)
 
     status = True if data["status"] == 1 else False
 
@@ -67,4 +67,4 @@ def log_cat_status_manual_correction():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=False)
+    app.run(host="0.0.0.0", debug=True)
