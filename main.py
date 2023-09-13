@@ -10,7 +10,7 @@ dotenv.load_dotenv()
 app = Flask(__name__)
 
 
-@app.route('/log-cat-status', methods=["POST"])
+@app.route('/cat-status/log/add-cat-status', methods=["POST"])
 def log_cat_status():
     data = str(request.get_json()).replace("'", "\"").replace("\"{", "{").replace("}\"", "}")
 
@@ -45,7 +45,7 @@ def log_cat_status():
     return [x for x in query_data]
 
 
-@app.route('/log-cat-status/manual-correction', methods=["POST"])
+@app.route('/cat-status/log/manual-correction', methods=["POST"])
 def log_cat_status_manual_correction():
     data = str(request.get_json()).replace("'", "\"").replace("\"{", "{").replace("}\"", "}")
     print(data)
