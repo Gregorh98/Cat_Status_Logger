@@ -76,34 +76,33 @@ def get_stats():
             cursor.execute(sql)
             data = cursor.fetchall()
 
-    max_time_gap = None
-    start_time = None
-    end_time = None
+    max_time_gap_outside = None
+    max_time_gap_inside = None
 
     for i in range(1, len(data)):
         if data[i - 1][2] is True and data[i][2] is False:
             time_gap = data[i][1] - data[i - 1][1]
-            if max_time_gap is None or time_gap > max_time_gap:
-                max_time_gap = time_gap
-                start_time = data[i - 1][1]
-                end_time = data[i][1]
+            if max_time_gap_outside is None or time_gap > max_time_gap_outside:
+                max_time_gap_outside = time_gap
+
+        if data[i - 1][2] is False and data[i][2] is True:
+            time_gap = data[i][1] - data[i - 1][1]
+            if max_time_gap_inside is None or time_gap > max_time_gap_inside:
+                max_time_gap_inside = time_gap
 
     # Convert the max_time_gap to hours and minutes
-    hours, remainder = divmod(max_time_gap.total_seconds(), 3600)
+    hours, remainder = divmod(max_time_gap_outside.total_seconds(), 3600)
     minutes, _ = divmod(remainder, 60)
 
-    longest_cat_time = f"{int(hours)} hours {int(minutes)} minutes"
+    longest_cat_time_outside = f"{int(hours)} hours {int(minutes)} minutes"
 
-    """
-    print("The greatest time gap between two records with True and False in the third column is:", longest_cat_time)
-    if start_time and end_time:
-        print("Start time:", start_time.strftime('%Y-%m-%d %H:%M:%S'))
-        print("End time:", end_time.strftime('%Y-%m-%d %H:%M:%S'))
-    else:
-        print("No matching records found.")
-    """
+    hours, remainder = divmod(max_time_gap_inside.total_seconds(), 3600)
+    minutes, _ = divmod(remainder, 60)
 
-    cat_stats = {"longest_time": longest_cat_time}
+    longest_cat_time_inside = f"{int(hours)} hours {int(minutes)} minutes"
+
+    cat_stats = {"longest_time_outside": longest_cat_time_outside, "longest_time_inside": longest_cat_time_inside}
+    print(cat_stats)
 
     return jsonify(cat_stats)
 
