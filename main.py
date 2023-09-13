@@ -74,11 +74,9 @@ def get_stats():
             sql = "select * from public.cat_flap_history"
 
             cursor.execute(sql)
-            data = cursor.fetch_all()
+            data = cursor.fetchall()
 
-    cat_stats = {}
-    cat_stats["longest_time"] = "TEST"
-    cat_stats["data"] = data
+    cat_stats = {"longest_time": "TEST", "data": data}
 
     return jsonify(cat_stats)
 
