@@ -18,7 +18,7 @@ def log_cat_status():
 
     data = json.loads(data)
 
-    status = True if data["status"] == 1 else False
+    status = True if data["status"] == "1" else False
     timestamp = data["timestamp"]
 
     weather = data["weather"]
