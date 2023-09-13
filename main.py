@@ -3,7 +3,7 @@ import os
 
 import dotenv
 import psycopg2
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 dotenv.load_dotenv()
 
@@ -64,6 +64,23 @@ def log_cat_status_manual_correction():
             conn.commit()
 
     return [x for x in query_data]
+
+
+@app.route('/cat-status/stats', methods=["GET"])
+def get_stats():
+    with psycopg2.connect(
+            "dbname='postgres' user='postgres' host='192.168.1.72' password=%s" % (os.getenv("DB_PASS"))) as conn:
+        with conn.cursor() as cursor:
+            sql = "select * from public.cat_flap_history"
+
+            cursor.execute(sql)
+            data = cursor.fetch_all()
+
+    cat_stats = {}
+    cat_stats["longest_time"] = "TEST"
+    cat_stats["data"] = data
+
+    return jsonify(cat_stats)
 
 
 if __name__ == '__main__':
